@@ -1,0 +1,97 @@
+/* Gallery Container */
+.gallery-container {
+  padding: 40px;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  text-align: center;
+}
+
+/* Title */
+.gallery-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+/* Description */
+.gallery-description {
+  font-size: 1.125rem;
+  color: #4b5563;
+  margin-top: 16px;
+}
+
+/* Grid Layout */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+/* Gallery Item */
+.gallery-item {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 100%;
+  position: relative;
+  aspect-ratio: 4/3; /* Default aspect ratio */
+}
+
+/* Special landscape orientation */
+.gallery-item-landscape {
+  aspect-ratio: 16/9;
+}
+
+/* Media Styling (both images and video) */
+.gallery-media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Keep original aspect ratio */
+  background-color: #000; /* Add black background for media with different ratios */
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.gallery-item:hover .gallery-media {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments for tablets */
+@media (min-width: 640px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .gallery-item-landscape {
+    grid-column: span 2; /* Make landscape videos span full width on tablets */
+  }
+}
+
+/* Responsive adjustments for desktop */
+@media (min-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .gallery-item-landscape {
+    grid-column: span 2; /* Make landscape videos span 2 columns on desktop */
+  }
+}
+
+/* Adjust padding and typography for small screens */
+@media (max-width: 640px) {
+  .gallery-container {
+    padding: 20px;
+  }
+  
+  .gallery-title {
+    font-size: 2rem;
+  }
+  
+  .gallery-description {
+    font-size: 1rem;
+  }
+}
