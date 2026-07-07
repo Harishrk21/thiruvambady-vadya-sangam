@@ -1,202 +1,133 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSearchParams } from "react-router-dom";
 import "../styles/Contact.css";
+import "../styles/EnrollmentForm.css";
+import { CONTACT, BRAND_NAME } from "../data/contactInfo";
+import SEO from "../components/SEO";
+import BookingForm from "../components/BookingForm";
+import { PAGE_SEO, getContactPageSchema, getLocalBusinessSchema } from "../data/seoData";
+import { SEO_IMAGES } from "../data/seoImages";
 
 const Contact = () => {
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
-  const [formStatus, setFormStatus] = useState({
-    submitted: false,
-    success: false,
-    message: ""
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      // Send the form data to your backend
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        setFormStatus({
-          submitted: true,
-          success: true,
-          message: "Thank you! Your message has been sent successfully."
-        });
-        
-        // Reset form after 3 seconds and hide it
-        setTimeout(() => {
-          setFormData({ name: "", email: "", message: "" });
-          setFormStatus({ submitted: false, success: false, message: "" });
-          setShowForm(false);
-        }, 3000);
-      } else {
-        throw new Error(data.message || 'Failed to send message');
-      }
-    } catch (error) {
-      setFormStatus({
-        submitted: true,
-        success: false,
-        message: error.message || "There was a problem sending your message. Please try again later."
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const [searchParams] = useSearchParams();
+  const defaultType = searchParams.get("type") === "course" ? "course" : "wedding";
 
   return (
-    <div className="contact-container">
-      <div className="contact-content">
-        <h2 className="contact-title">Get in Touch</h2>
-        <div className="contact-divider"></div>
-        
-        <div className="contact-info-container">
-          <div className="contact-item">
-            <i className="contact-icon phone-icon"></i>
-            <p className="contact-text">
-              <a href="tel:+919443742250" className="contact-link">+91 94437 42250</a>
-            </p>
-          </div>
-          
-          <div className="contact-item">
-            <i className="contact-icon email-icon"></i>
-            <p className="contact-text">
-              <a href="mailto:vaadhyakalasathish@gmail.com" className="contact-link">vaadhyakalasathish@gmail.com</a>
-            </p>
-          </div>
+    <div className="contact-page">
+      <SEO
+        title={PAGE_SEO.contact.title}
+        description={PAGE_SEO.contact.description}
+        path={PAGE_SEO.contact.path}
+        ogImage={SEO_IMAGES.contact}
+        jsonLd={{ "@context": "https://schema.org", "@graph": [getLocalBusinessSchema(), getContactPageSchema()] }}
+      />
 
-          <div className="contact-item">
-            <i className="contact-icon email-icon"></i>
-            <p className="contact-text">
-              <a href="https://vaadhyakalakshethram.com" target="_blank" rel="noopener noreferrer" className="contact-link">vaadhyakalakshethram.com</a>
-            </p>
-          </div>
+      <div className="contact-page-inner">
+        <header className="contact-page-header">
+          <span className="contact-eyebrow">Book · Enroll · Get Quote</span>
+          <h1 className="contact-title">Book Chenda Melam & Events</h1>
+          <p className="contact-intro">
+            Wedding Chenda Melam, temple programs, corporate events, or course enrollment —
+            fill in the form or reach us instantly on WhatsApp.
+          </p>
+          <a
+            href={CONTACT.whatsapp}
+            className="contact-whatsapp-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp Instant Booking
+          </a>
+        </header>
 
-          <div className="contact-item">
-            <i className="contact-icon phone-icon"></i>
-            <p className="contact-text">Sri Balamanikandan Vaadhya Kalakshethram<br/>
-            469, Balu Complex, Idayarpalayam Pirivu,<br/>
-            Kuniyamuthur, Coimbatore 641008, Tamil Nadu</p>
-          </div>
-        </div>
-        
-        <div className="social-links">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link instagram">
-            <i className="social-icon instagram-icon"></i>
-            <span>Instagram</span>
-          </a>
-          
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link facebook">
-            <i className="social-icon facebook-icon"></i>
-            <span>Facebook</span>
-          </a>
-          
-          <a href="https://wa.me/919443742250" target="_blank" rel="noopener noreferrer" className="social-link whatsapp">
-            <i className="social-icon whatsapp-icon"></i>
-            <span>WhatsApp</span>
-          </a>
-        </div>
-        
-        {!showForm ? (
-          <button className="contact-button" onClick={() => setShowForm(true)}>
-            Send a Message
-          </button>
-        ) : (
-          <div className="contact-form-container">
-            {formStatus.submitted ? (
-              <div className={`form-status ${formStatus.success ? "success" : "error"}`}>
-                {formStatus.message}
+        <div className="contact-layout">
+          <aside className="contact-sidebar">
+            <h2 className="contact-sidebar-title">Contact Details</h2>
+
+            <div className="contact-cards">
+              <a href={`tel:${CONTACT.phoneTel}`} className="contact-card contact-card-link">
+                <span className="contact-card-icon phone-icon" aria-hidden="true" />
+                <div>
+                  <span className="contact-card-label">Phone / WhatsApp</span>
+                  <span className="contact-card-value">{CONTACT.phone}</span>
+                </div>
+              </a>
+
+              <a href={`mailto:${CONTACT.email}`} className="contact-card contact-card-link">
+                <span className="contact-card-icon email-icon" aria-hidden="true" />
+                <div>
+                  <span className="contact-card-label">Email</span>
+                  <span className="contact-card-value">{CONTACT.email}</span>
+                </div>
+              </a>
+
+              <a
+                href={CONTACT.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-card contact-card-link"
+              >
+                <span className="contact-card-icon web-icon" aria-hidden="true" />
+                <div>
+                  <span className="contact-card-label">Website</span>
+                  <span className="contact-card-value">{CONTACT.websiteDisplay}</span>
+                </div>
+              </a>
+
+              <div className="contact-card">
+                <span className="contact-card-icon location-icon" aria-hidden="true" />
+                <div>
+                  <span className="contact-card-label">Studio</span>
+                  <span className="contact-card-value">
+                    {BRAND_NAME}<br />
+                    {CONTACT.address.line1},<br />
+                    {CONTACT.address.line2}
+                  </span>
+                  <span className="contact-card-note">
+                    Based in Madipakkam, Chennai · performing across Tamil Nadu, AP & Telangana
+                  </span>
+                </div>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="contact-form">
-                <div className="form-header">
-                  <h3>Send Us a Message</h3>
-                  <button 
-                    type="button" 
-                    className="close-button" 
-                    onClick={() => setShowForm(false)}
-                  >
-                    ×
-                  </button>
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="name">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your name"
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your email address"
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="message">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    placeholder="Type your message here..."
-                    rows="4"
-                  ></textarea>
-                </div>
-                
-                <div className="form-actions">
-                  <button type="button" className="cancel-button" onClick={() => setShowForm(false)}>
-                    Cancel
-                  </button>
-                  <button 
-                    type="submit" 
-                    className="submit-button"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        )}
+            </div>
+
+            <div className="contact-social-row">
+              <a
+                href={CONTACT.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-social-btn instagram"
+                aria-label="Instagram"
+              >
+                <span className="social-icon instagram-icon" />
+              </a>
+              <a
+                href={CONTACT.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-social-btn facebook"
+                aria-label="Facebook"
+              >
+                <span className="social-icon facebook-icon" />
+              </a>
+              <a
+                href={CONTACT.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-social-btn whatsapp"
+                aria-label="WhatsApp"
+              >
+                <span className="social-icon whatsapp-icon" />
+              </a>
+            </div>
+          </aside>
+
+          <section className="contact-form-panel" aria-label="Booking form">
+            <BookingForm
+              mode={defaultType === "course" ? "course" : "event"}
+              defaultInquiryType={defaultType}
+            />
+          </section>
+        </div>
       </div>
     </div>
   );

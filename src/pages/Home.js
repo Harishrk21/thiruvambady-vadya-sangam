@@ -1,44 +1,75 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Home.css"; // Import the CSS file
-import heroImage from "../assets/hero-image.jpg"; 
-import sangamImage from "../assets/sangam.jpg"; 
-import guruImage from "../assets/guru.jpg"; 
-import FreeChatbot from './FreeChatbot'; // Adjust the import path as needed
+import "../styles/Home.css";
+import "../styles/SeoPages.css";
+import heroImage from "../assets/hero-image.jpg";
+import guruImage from "../assets/guru.png";
+import InstagramCarousel from "../components/InstagramCarousel";
+import SEO from "../components/SEO";
+import { CONTACT, BRAND_NAME } from "../data/contactInfo";
+import { PAGE_SEO, TAMIL_NADU_CITIES, ANDHRA_PRADESH_CITIES, TELANGANA_CITIES, getLocalBusinessSchema } from "../data/seoData";
+import { CHENNAI_AREA_PAGES, getAreaPath } from "../data/chennaiAreaPages";
+import { SEO_IMAGES } from "../data/seoImages";
+
+const aboutImage = `${process.env.PUBLIC_URL}/about.png`;
 
 const Home = () => {
   const navigate = useNavigate();
   return (
     <div className="home-container">
+      <SEO
+        title={PAGE_SEO.home.title}
+        description={PAGE_SEO.home.description}
+        path={PAGE_SEO.home.path}
+        ogImage={SEO_IMAGES.home}
+        jsonLd={getLocalBusinessSchema()}
+      />
+
       {/* Hero Section */}
       <div className="hero-section">
-        <img src={heroImage} alt="Kerala Percussion" className="hero-image" />
+        <img src={heroImage} alt="Chenda Melam Chennai - Kerala Wedding Melam Performance" className="hero-image" />
         <div className="hero-content">
-          <h1 className="hero-title">Sri Balamanikanda Vaadhya Kalakshethram</h1>
+          <h1 className="hero-title">{BRAND_NAME}</h1>
+          <h2 className="hero-tagline">Chenda Melam in Chennai</h2>
           <p className="hero-subtitle">
-            Master the rhythm of traditional Kerala percussion instruments
+            Book professional Chenda Melam for wedding in Chennai, Tamil Nadu, Andhra Pradesh & Telangana.
+            Online Chenda Melam classes globally. Traditional Kerala Melam for groom entry, baraat & reception.
           </p>
-          <button className="hero-button" onClick={() => navigate("/courses")}>Enroll Now</button>
+          <div className="hero-button-row">
+            <button className="hero-button" onClick={() => navigate("/chenda-melam-chennai")}>Book Wedding Melam</button>
+            <button className="hero-button hero-button-outline" onClick={() => navigate("/chenda-classes-chennai")}>Chenda Classes</button>
+          </div>
         </div>
       </div>
 
-      {/* About Sri Balamanikanda Vaadhya Kalakshethram */}
+      {/* About brand */}
       <div className="section-container">
-        <img src={sangamImage} alt="Sri Balamanikanda Vaadhya Kalakshethram" className="section-image" />
+        <img
+          src={aboutImage}
+          alt={`${BRAND_NAME} — Chenda Melam ensemble and students at Madipakkam, Chennai`}
+          className="section-image"
+          loading="lazy"
+        />
         <div className="section-content">
-          <h2 className="section-title">About Sri Balamanikanda Vaadhya Kalakshethram</h2>
+          <h2 className="section-title">About {BRAND_NAME}</h2>
           <p className="section-text">
-            Sri Balamanikanda Vaadhya Kalakshethram, Coimbatore, is a prestigious percussion academy dedicated to preserving the rich
-            traditions of Kerala's percussion instruments. Our courses cover everything from basic techniques
-            to advanced rhythms, ensuring students gain a comprehensive understanding of our cultural heritage.
+            <strong>{BRAND_NAME}</strong> is a professional <strong>Chenda Melam team</strong> and percussion academy
+            serving <strong>Chennai</strong> and all of Tamil Nadu. We specialise in <strong>wedding Chenda Melam Chennai</strong> —
+            groom entry, bride entry, baraat, reception, and muhurtham — alongside authentic <strong>Kerala Chenda Melam</strong>,
+            <Link to="/melams"> Panchari Melam</Link>, and <Link to="/programs">Panchavadyam</Link> for temple and cultural events.
+          </p>
+          <p className="section-text">
+            Under Guru <strong>Thiruvambady Vineesh Maarar</strong>, we offer <Link to="/chenda-classes-chennai">Chenda Melam classes in Chennai</Link> —
+            online and offline — covering classical melam forms and ensemble performance.
+            <Link to="/chenda-melam-chennai"> Book Chenda Melam</Link> for your wedding or <Link to="/contact">contact us on WhatsApp</Link> for instant booking.
           </p>
         </div>
       </div>
 
-      {/* Why Join Sri Kalakshetra Vadhya Sangam */}
+      {/* Why Join */}
       <div className="why-join-section">
         <div className="why-join-content">
-          <h2 className="section-title">Why Join Sri Kalakshetra Vadhya Sangam</h2>
+          <h2 className="section-title">Why Join {BRAND_NAME}</h2>
           <div className="benefits-container">
             <div className="benefit-card">
               <div className="benefit-icon">
@@ -52,7 +83,7 @@ const Home = () => {
               </div>
               <h3 className="benefit-title">Authentic Learning</h3>
               <p className="benefit-text">
-                Learn traditional techniques passed down through generations, preserving the authentic art form.
+                Learn traditional techniques — Veekku, Chaapu, Melam patterns, and Panchavadyam structures — passed down through generations of Marar and temple artist lineages.
               </p>
             </div>
             
@@ -65,7 +96,7 @@ const Home = () => {
               </div>
               <h3 className="benefit-title">Flexible Schedule</h3>
               <p className="benefit-text">
-                Choose from various class timings that fit your schedule, making it easier to balance learning with other commitments.
+                Weekend, evening, and flexible batches designed for students, working professionals, and children — learn Chenda, Thimila, Idakka, or Maddalam at your pace.
               </p>
             </div>
             
@@ -80,7 +111,7 @@ const Home = () => {
               </div>
               <h3 className="benefit-title">Expert Guidance</h3>
               <p className="benefit-text">
-                Learn from maestros with decades of experience in both teaching and performing on prestigious stages.
+                Train under Thiruvambady Vineesh Maarar — an Idakka specialist with 30+ years of experience in Melam, Panchavadyam, Sopana Sangeetham, and temple festival performances.
               </p>
             </div>
             
@@ -92,7 +123,7 @@ const Home = () => {
               </div>
               <h3 className="benefit-title">Performance Opportunities</h3>
               <p className="benefit-text">
-                Regular showcase events and festival performances to build confidence and gain real-world experience.
+                Regular arangam showcases, temple program participation, and festival performances at Kerala Samajam, temple programs, and cultural events across Chennai and Tamil Nadu.
               </p>
             </div>
           </div>
@@ -100,37 +131,119 @@ const Home = () => {
         </div>
       </div>
 
-      {/* About Guru Sri A/N R. Sathish Kumar Ramankutty */}
-      <div className="section-container reverse">
-        <div className="guru-image-container">
-          <img src={guruImage} alt="Guru A/N R. Sathish Kumar Ramankutty" className="guru-image" />
+      {/* SEO: Wedding Melam & Classes Chennai */}
+      <section className="home-seo-section">
+        <div className="home-seo-inner">
+          <h2>Chenda Melam Wedding & Classes — Chennai to Global</h2>
+          <p className="home-seo-sub">
+            Wedding Chenda Melam across Chennai, Tamil Nadu, Andhra Pradesh & Telangana.
+            Online Chenda Melam classes worldwide for students in USA, UK, UAE, and beyond.
+          </p>
+          <div className="home-seo-grid">
+            <div className="home-seo-block">
+              <h3>Wedding Chenda Melam Chennai</h3>
+              <p>Book traditional Kerala wedding band for groom entry, baraat, reception, and muhurtham across all Chennai areas.</p>
+              <Link to="/chenda-melam-chennai">Book Chenda Melam Chennai →</Link>
+            </div>
+            <div className="home-seo-block">
+              <h3>Online Chenda Melam Class — Global</h3>
+              <p>Learn Chenda Melam online from anywhere — USA, UK, UAE, Singapore, Malaysia, Europe. Live classes with expert gurus.</p>
+              <Link to="/chenda-classes-chennai#global-online">Online Classes Worldwide →</Link>
+            </div>
+            <div className="home-seo-block">
+              <h3>Wedding Chenda Melam Tamil Nadu</h3>
+              <p>Chenda Melam for wedding in Tamil Nadu — Coimbatore, Madurai, Trichy, Salem and all major cities.</p>
+              <div className="home-seo-areas">
+                {TAMIL_NADU_CITIES.slice(0, 6).map((c) => <span key={c}>{c}</span>)}
+              </div>
+              <Link to="/chenda-melam-chennai#tamil-nadu">Tamil Nadu weddings →</Link>
+            </div>
+            <div className="home-seo-block">
+              <h3>Wedding Chenda Melam Andhra Pradesh</h3>
+              <p>Kerala Chenda Melam for weddings in Vijayawada, Visakhapatnam, Tirupati, Guntur and across AP.</p>
+              <div className="home-seo-areas">
+                {ANDHRA_PRADESH_CITIES.slice(0, 5).map((c) => <span key={c}>{c}</span>)}
+              </div>
+              <Link to="/chenda-melam-chennai#andhra-pradesh">Andhra Pradesh →</Link>
+            </div>
+            <div className="home-seo-block">
+              <h3>Wedding Chenda Melam Telangana</h3>
+              <p>Professional Chenda Melam team for Hyderabad weddings, Warangal, and Telangana marriage functions.</p>
+              <div className="home-seo-areas">
+                {TELANGANA_CITIES.slice(0, 5).map((c) => <span key={c}>{c}</span>)}
+              </div>
+              <Link to="/chenda-melam-chennai#telangana">Telangana weddings →</Link>
+            </div>
+            <div className="home-seo-block">
+              <h3>Chennai Areas We Cover</h3>
+              <p>Chenda Melam near me — all major Chennai neighbourhoods for weddings and events.</p>
+              <div className="home-seo-areas">
+                {CHENNAI_AREA_PAGES.map((a) => (
+                  <Link key={a.slug} to={getAreaPath(a.slug)}>{a.name}</Link>
+                ))}
+              </div>
+              <Link to="/chenda-melam-chennai#areas">All Chennai areas →</Link>
+            </div>
+          </div>
+          <div className="home-seo-ctas">
+            <a href={CONTACT.whatsapp} className="seo-cta primary" target="_blank" rel="noopener noreferrer">WhatsApp Booking</a>
+            <Link to="/contact" className="seo-cta outline">Chenda Melam Contact</Link>
+            <Link to="/programs" className="seo-cta outline">Wedding Programs</Link>
+          </div>
         </div>
-        <div className="section-content">
-          <h2 className="section-title">About Our Guru</h2>
-          <p className="section-text">
-            Sri. A/N R. Sathish Kumar is a distinguished Chenda and Thimila percussionist; Founder & Director of
-            Sri Balamanikanda Vaadhya Kalakshethram, Coimbatore (since 2007). A disciple guided by revered mentors
-            including Sri Thathuvagnani Vethathiri Maharishi, Sri Varahi Manikanda Swamigal, Sri Panangattiri Mohanan,
-            and Sri Mattannur Sivaraman, he blends profound spiritual discipline with rigorous traditional training.
+      </section>
+
+      {/* About Guru Thiruvambady Vineesh Maarar */}
+      <div className="section-container reverse guru-section">
+        <div className="guru-image-container">
+          <div className="guru-image-frame">
+            <img src={guruImage} alt="Guru Thiruvambady Vineesh Maarar" className="guru-image" />
+          </div>
+          <div className="guru-badges">
+            <span className="guru-badge">Idakka Specialist</span>
+            <span className="guru-badge">30+ Years</span>
+            <span className="guru-badge">Gurukul Tradition</span>
+          </div>
+        </div>
+        <div className="section-content guru-content">
+          <span className="guru-eyebrow">Guiding Master</span>
+          <h2 className="section-title guru-title">About Our Guru</h2>
+          <p className="guru-name">Thiruvambady Vineesh Maarar</p>
+          <p className="section-text guru-lead">
+            A distinguished Kerala percussion artist and renowned Idakka specialist with over 30 years
+            of experience in temple music, Sopana Sangeetham, and Panchavadyam traditions.
           </p>
-          <p className="section-text">
-            As a lifelong learner, he completed the SKY Yoga master course and was initiated by Sri Vethathiri Maharishi
-            as Arulnidhi. He is also initiated into holistic Reiki healing (3 stages) by Grand Master Raissava Uruzkul (Reiki Olga).
-            His instrument journey spans Chenda & Thimila under Aashan Sri Panangattiri Mohanan and Sri Mattannur Sivaraman; Mridangam under
-            Sri Sennanur Kuppuraj; and self-guided explorations in Idakka and Kanjira.
-          </p>
-          <p className="section-text">
-            As a performer, he has shared stages in Melam and Panchavadyam with legends including Padmasri Mattannur Sankarankutty Marar,
-            Sri Mattannur Sivaraman, Sri Panangattiri Mohanan, Sri Mattannur Sreekanth, Sri Mattannur Sreeraj, among many others. His fusion
-            works span collaborations with Mridangam, Parai, and tribal instruments with contemporary composers and researchers.
-          </p>
-          <p className="section-text">
-            With extensive instructor experience across Coimbatore—including Moorandamman Temple (15 years), Kerala Samajam, and Shri's Folk Studio—
-            he is a member of Kerala Kashethra Vaadhya Kala Academy and a registered artist of the Tamil Nadu Government Arts and Culture Department.
-            Recognitions include Kalairatna (2021), Kalai Imayam (2023), Kalai Sudar (2024), and Kovai Vaadhya Kulapathy (2024).
-          </p>
+          <div className="guru-highlights">
+            <div className="guru-highlight-card">
+              <span className="guru-highlight-icon">🥁</span>
+              <div>
+                <h4>Idakka Mastery</h4>
+                <p>Trained in the rigorous gurukul tradition — melodic sensitivity, precise talam, and devotional depth.</p>
+              </div>
+            </div>
+            <div className="guru-highlight-card">
+              <span className="guru-highlight-icon">🏛️</span>
+              <div>
+                <h4>Stage & Temple</h4>
+                <p>Chenda Melam, Panchavadyam, and ensemble programs across Kerala and Tamil Nadu.</p>
+              </div>
+            </div>
+            <div className="guru-highlight-card">
+              <span className="guru-highlight-icon">🎓</span>
+              <div>
+                <h4>Teaching</h4>
+                <p>Offline classes at the Sangam and online sessions for students across India and abroad.</p>
+              </div>
+            </div>
+          </div>
+          <blockquote className="guru-quote">
+            "Whether beginner or advanced, his teaching emphasises authentic tradition, attentive listening,
+            and the confidence to perform on temple stages and cultural platforms."
+          </blockquote>
         </div>
       </div>
+
+      <InstagramCarousel />
 
       {/* Know More About Instruments Section - Enhanced Version */}
       <div className="instruments-showcase-section">
@@ -138,8 +251,9 @@ const Home = () => {
         <div className="instruments-showcase-content">
           <h2 className="instruments-showcase-title">Discover the Rhythmic Heritage of Kerala</h2>
           <p className="instruments-showcase-text">
-            Immerse yourself in the rich tapestry of Kerala's percussion traditions. From the thunderous Chenda 
-            to the melodic Idakka, our instruments have shaped cultural expressions for centuries.
+            Immerse yourself in the rich tapestry of Kerala's percussion traditions. From the thunderous Chenda Melam
+            of Thrissur Pooram to the melodic Idakka of Sopana Sangeetham, from the leading beats of Panchavadyam's
+            Thimila to the sacred Mizhavu of Koodiyattam — nine instruments, centuries of heritage.
           </p>
           
           <div className="instruments-preview-container">
@@ -158,6 +272,21 @@ const Home = () => {
                 <span className="instrument-name-tag">Idakka</span>
               </div>
             </div>
+            <div className="instrument-preview">
+              <div className="instrument-preview-circle">
+                <span className="instrument-name-tag">Thimila</span>
+              </div>
+            </div>
+            <div className="instrument-preview">
+              <div className="instrument-preview-circle">
+                <span className="instrument-name-tag">Kombu</span>
+              </div>
+            </div>
+            <div className="instrument-preview">
+              <div className="instrument-preview-circle">
+                <span className="instrument-name-tag">Mizhavu</span>
+              </div>
+            </div>
           </div>
           
           <Link to="/instruments" className="instruments-showcase-button">
@@ -169,7 +298,6 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <FreeChatbot></FreeChatbot>
     </div>
   );
 };

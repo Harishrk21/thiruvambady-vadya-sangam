@@ -1,31 +1,112 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import logo from "../assets/logo.jpg"; // If you share a new transparent logo file, replace this path
-import "../styles/Navbar.css"; // Import the CSS file
+import React, { useState, useEffect } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import "../styles/Navbar.css";
+
+import { BRAND_NAME, BRAND_NAV } from "../data/contactInfo";
+
+const logo = `${process.env.PUBLIC_URL}/tvs-logo.png`;
+
+const navLinks = [
+  { to: "/", label: "Home" },
+  { to: "/chenda-melam-chennai", label: "Wedding Melam" },
+  { to: "/chenda-classes-chennai", label: "Classes" },
+  { to: "/courses", label: "Courses" },
+  { to: "/melams", label: "Melams" },
+  { to: "/instruments", label: "Instruments" },
+  { to: "/programs", label: "Programs" },
+  { to: "/testimonials", label: "Testimonials" },
+  { to: "/gallery", label: "Gallery" },
+  { to: "/contact", label: "Contact" },
+];
 
 const Navbar = () => {
-  return (
-    <nav className="navbar">
-      {/* Logo & Title */}
-      <div className="navbar-logo">
-        <Link to="/" className="title-link">
-          <img src={logo} alt="Logo" className="logo-img" />
-          <h1 className="navbar-title">Sri Balamanikanda Vaadhya Kalakshethram</h1>
-        </Link>
-      </div>
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
-      {/* Navigation Links */}
-      <div className="navbar-links">
-        <Link to="/" className="navbar-link">Home</Link>
-        <Link to="/courses" className="navbar-link">Courses</Link>
-        <Link to="/instruments" className="navbar-link">Instruments</Link>
-        <Link to="/programs" className="navbar-link">Programs</Link>
-        <Link to="/awards" className="navbar-link">Awards</Link>
-        <Link to="/testimonials" className="navbar-link">Testimonials</Link>
-        <Link to="/gallery" className="navbar-link">Gallery</Link>
-        <Link to="/contact" className="navbar-link">Contact</Link>
-      </div>
-    </nav>
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  return (
+    <header className="navbar-wrapper">
+      <nav className="navbar" aria-label="Main navigation">
+        <div className="navbar-inner">
+          <Link to="/" className="navbar-brand" onClick={() => setMenuOpen(false)}>
+            <img src={logo} alt={BRAND_NAME} className="logo-img" />
+            <div className="brand-text">
+              <span className="brand-name">{BRAND_NAV.line1}</span>
+              <span className="brand-sub">{BRAND_NAV.line2}</span>
+            </div>
+          </Link>
+
+          <div className="navbar-desktop">
+            <div className="navbar-links">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `navbar-link${isActive ? " active" : ""}`
+                  }
+                  end={link.to === "/"}
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </div>
+            <Link to="/courses" className="navbar-cta">
+              Enroll Now
+            </Link>
+          </div>
+
+          <button
+            type="button"
+            className={`navbar-toggle${menuOpen ? " open" : ""}`}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+      </nav>
+
+      <div
+        className={`navbar-overlay${menuOpen ? " visible" : ""}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+
+      <aside className={`navbar-mobile${menuOpen ? " open" : ""}`} aria-hidden={!menuOpen}>
+        <div className="mobile-links">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                `mobile-link${isActive ? " active" : ""}`
+              }
+              end={link.to === "/"}
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </div>
+        <Link to="/courses" className="mobile-cta" onClick={() => setMenuOpen(false)}>
+          Enroll Now
+        </Link>
+      </aside>
+    </header>
   );
 };
 

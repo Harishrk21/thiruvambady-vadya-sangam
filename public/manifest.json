@@ -1,25 +1,21 @@
 {
-  "short_name": "SBVK",
-  "name": "Sri Balamanikanda Vaadhya Kalakshethram",
+  "short_name": "TVS Kalakshethram",
+  "name": "Thiruvambady Vadyasangam & Kalakshethram — Chenda Melam Chennai",
+  "description": "Book Chenda Melam for wedding in Chennai. Kerala wedding melam team and classes.",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
+      "src": "tvs-logo.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "tvs-logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a"
 }

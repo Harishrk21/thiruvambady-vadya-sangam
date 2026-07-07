@@ -8,11 +8,13 @@ import MizhavuImage from "../assets/mizhavu.jpg";
 import KombuImage from "../assets/kombu.jpg";
 import ChendaImage from "../assets/chenda.jpg";
 
+import { BRAND_NAME } from "../data/contactInfo";
+
 const FreeChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { 
-      text: "Vanakkam! Welcome to Sri Kalakshetra Vadhya Sangam. How can I assist you today?", 
+      text: `Vanakkam! Welcome to ${BRAND_NAME}. How can I assist you today?`, 
       sender: 'bot',
       quickReplies: [
         { text: "Courses Offered", payload: "courses" },
@@ -314,10 +316,10 @@ const FreeChatbot = () => {
     }
 
     // Handle contact requests
-    else if (lowerInput.includes('contact') || lowerInput === 'contact') {
+    else if (lowerInput.includes('contact') || lowerInput === 'contact' || lowerInput.includes('phone') || lowerInput.includes('email') || lowerInput.includes('whatsapp')) {
       setShowContactForm(true);
       botResponse = {
-        text: "I'm opening our contact form for you. Please provide your details and we'll get back to you soon.",
+        text: "Reach us at:\n📞 +91 6379 135 988\n📧 vineeshkalyanaraman5@gmail.com\n🌐 thiruvambadyvadyasangam.com\n💬 WhatsApp: same number\n\nYou can also fill out the contact form below.",
         sender: 'bot'
       };
     }
@@ -325,7 +327,7 @@ const FreeChatbot = () => {
     // Handle termination
     else if (lowerInput.includes('bye') || lowerInput.includes('end chat') || lowerInput.includes('exit')) {
       botResponse = {
-        text: "Thank you for connecting with Sri Kalakshetra Vadhya Sangam. Have a wonderful day! Nandri! 🙏",
+        text: `Thank you for connecting with ${BRAND_NAME}. Have a wonderful day! Nandri! 🙏`,
         sender: 'bot'
       };
       setMessages(prev => [...prev, botResponse]);
@@ -434,7 +436,7 @@ const FreeChatbot = () => {
                 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
                 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
               </svg>
-              <h3>Kalakshetra Support</h3>
+              <h3>{BRAND_NAME}</h3>
             </div>
             <button onClick={() => setIsOpen(false)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "../styles/Courses.css";
+import SEO from "../components/SEO";
+import { PAGE_SEO } from "../data/seoData";
+import { SEO_IMAGES } from "../data/seoImages";
 import EnrollmentForm from "./EnrollmentForm";
-import chendaImage from "../assets/chenda.jpg"; 
+import chendaImage from "../assets/chenda.jpg";
+import melams from "../data/melamsData";
 import ThimilaImage from "../assets/Thimila.jpg";
 import IdakkaImage from "../assets/idakka.jpg";
-import Maddalam from "../assets/maddalam.jpg"
+import Maddalam from "../assets/maddalam.jpg";
 import Thayambka from "../assets/Thayambaka.jpg";
 import Kombu from "../assets/kombu.jpg";
 import sopanam from "../assets/sopanam.jpg";
@@ -41,9 +46,13 @@ const courseData = [
                  - Development of precise stick and hand control
 
               3. *Performance Styles:*
-                 - Temple ensemble beats
+                 - Temple ensemble beats and Chenda Melam forms
+                 - Panchari, Chempada, Adantha, Pandi & Dhruvam Melam
                  - Kathakali and Theyyam performance rhythms
                  - Solo and group performance techniques
+
+              *Chenda Melam Forms Covered:*
+              Students progressing in Chenda Melam training will learn the five classical forms — Panchari Melam, Chempada Melam, Adantha Melam, Pandi Melam, and Dhruvam Melam. See the full Melams page for detailed descriptions of each form.
 
               4. *Cultural Immersion:*
                  - Historical context of Chenda in Kerala's traditions
@@ -340,11 +349,70 @@ const courseData = [
   }
 ];
 
+const formatCourseDetails = (details) => {
+  const sections = details.split("\n\n");
+  let modulesHtml = "";
+  let otherHtml = "";
+
+  sections.forEach((section) => {
+    if (section.startsWith("*") && section.endsWith("*")) {
+      otherHtml += `<h3 class="course-section-header">${section.replace(/\*/g, "")}</h3>`;
+      return;
+    }
+
+    if (/^(1\.|2\.|3\.|4\.)/.test(section)) {
+      const lines = section.split("\n");
+      const firstLine = lines[0];
+      const sectionName = firstLine
+        .replace(/^(1\.|2\.|3\.|4\.) */, "")
+        .replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+
+      const listItems = lines
+        .slice(1)
+        .filter((line) => line.trim().startsWith("-"))
+        .map((item) => {
+          const cleaned = item.replace(/^-\s*/, "").replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+          return `<li>${cleaned}</li>`;
+        })
+        .join("");
+
+      modulesHtml += `
+        <div class="course-module">
+          <h4 class="module-title">${sectionName}</h4>
+          ${listItems ? `<ul class="module-list">${listItems}</ul>` : ""}
+        </div>
+      `;
+      return;
+    }
+
+    const formatted = section
+      .replace(/\*(.*?)\*/g, "<strong>$1</strong>")
+      .replace(/^-\s+/gm, "• ");
+
+    if (section.trim().startsWith("-")) {
+      otherHtml += `<ul class="course-highlight-list">${section
+        .split("\n")
+        .map(
+          (line) =>
+            `<li>${line.replace(/^-\s*/, "").replace(/\*(.*?)\*/g, "<strong>$1</strong>")}</li>`
+        )
+        .join("")}</ul>`;
+    } else {
+      otherHtml += `<p class="course-intro-text">${formatted}</p>`;
+    }
+  });
+
+  const modulesGrid = modulesHtml ? `<div class="course-modules-grid">${modulesHtml}</div>` : "";
+  return otherHtml + modulesGrid;
+};
+
 const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
+  const detailRef = useRef(null);
 
   const openDetails = (course) => {
+    setShowEnrollmentForm(false);
     setSelectedCourse(course);
   };
 
@@ -353,136 +421,156 @@ const Courses = () => {
     setShowEnrollmentForm(false);
   };
 
-  const handleEnroll = () => {
-    setShowEnrollmentForm(true);
-  };
-
-  const closeEnrollmentForm = () => {
-    setShowEnrollmentForm(false);
-  };
-
-  // Improved markdown-like formatting function
-  const formatCourseDetails = (details) => {
-    // Split the details into sections
-    const sections = details.split('\n\n');
-    
-    return sections.map((section, index) => {
-      // Check for section headers (those starting with *)
-      if (section.startsWith('*') && section.endsWith('*')) {
-        // Remove asterisks and create a header
-        return `<h3 class="course-section-header">${section.replace(/\*/g, '')}</h3>`;
-      }
-      
-      // Handle numbered list sections
-      if (/^(1\.|2\.|3\.|4\.)/.test(section)) {
-        const listItems = section.split('\n').map(item => {
-          // Remove numbering and asterisks, create list items
-          const cleanedItem = item.replace(/^(1\.|2\.|3\.|4\.) */, '').replace(/\*(.*?)\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
-          return `<li>${cleanedItem}</li>`;
-        });
-        
-        // Extract section name (first line without numbering)
-        const sectionName = section.match(/^(1\.|2\.|3\.|4\.) *(.*)/)[2].replace(/\*(.*?)\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');;
-        
-        return `
-          <div class="course-module">
-            <h4 class="module-title">${sectionName}</h4>
-            <ul class="module-list">${listItems.join('')}</ul>
-          </div>
-        `;
-      }
-      
-      // Regular paragraphs with markdown-like formatting
-      return `<p>${section.replace(/\*(.*?)\*/g, '<strong>$1</strong>')}</p>`;
-    }).join('');
-  };
+  useEffect(() => {
+    if (selectedCourse && detailRef.current) {
+      detailRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [selectedCourse, showEnrollmentForm]);
 
   return (
     <div className="courses-container">
+      <SEO
+        title={PAGE_SEO.courses.title}
+        description={PAGE_SEO.courses.description}
+        path={PAGE_SEO.courses.path}
+        ogImage={SEO_IMAGES.courses}
+      />
+
       <div className="courses-header">
-        <h2 className="courses-title">Traditional Percussion Courses</h2>
+        <h1 className="courses-title">Chenda Melam Courses & Kerala Percussion</h1>
         <p className="courses-subtitle">
-          Immerse yourself in the rich rhythmic heritage of Kerala's classical percussion instruments
+          Learn Chenda Melam — <Link to="/chenda-classes-chennai">online and offline classes in Chennai</Link>.
+          Master Kerala percussion from beginner to advanced.{" "}
+          <Link to="/chenda-melam-chennai">Book wedding Chenda Melam</Link> performances.
         </p>
+        <Link to="/" className="back-button">Back to Home</Link>
       </div>
+
+      {selectedCourse && (
+        <section
+          className="course-detail-panel"
+          id="course-detail"
+          ref={detailRef}
+          aria-labelledby="course-detail-title"
+        >
+          <div className="course-detail-panel__header">
+            <div className="course-detail-panel__thumb">
+              <img src={selectedCourse.image} alt={selectedCourse.name} />
+            </div>
+            <div className="course-detail-panel__intro">
+              <span className="course-detail-panel__badge">{selectedCourse.level}</span>
+              <h2 id="course-detail-title" className="course-detail-panel__title">
+                {selectedCourse.name}
+              </h2>
+              <p className="course-detail-panel__desc">{selectedCourse.description}</p>
+              <div className="course-detail-panel__meta">
+                <span>⏱ {selectedCourse.duration}</span>
+                <span>📅 {selectedCourse.schedule}</span>
+                <span>👤 {selectedCourse.instructor}</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="course-detail-panel__close"
+              onClick={closeDetails}
+              aria-label="Close course details"
+            >
+              ×
+            </button>
+          </div>
+
+          {!showEnrollmentForm ? (
+            <>
+              <div className="course-detail-panel__body">
+                <h3 className="course-detail-panel__heading">Course Overview</h3>
+                <div
+                  className="modal-full-details"
+                  dangerouslySetInnerHTML={{
+                    __html: formatCourseDetails(selectedCourse.details),
+                  }}
+                />
+
+                {selectedCourse.name === "Chenda" && (
+                  <div className="course-melam-section">
+                    <h3 className="course-melam-heading">Chenda Melam Forms</h3>
+                    <p className="course-melam-intro">
+                      Advanced Chenda training covers these classical melam forms:
+                    </p>
+                    <div className="course-melam-list">
+                      {melams.map((m) => (
+                        <Link to={`/melams#${m.id}`} key={m.id} className="course-melam-chip">
+                          {m.name}
+                        </Link>
+                      ))}
+                    </div>
+                    <Link to="/melams" className="course-melam-link">
+                      View full Melam guide →
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              <div className="course-detail-panel__actions">
+                <button type="button" className="enroll-button" onClick={() => setShowEnrollmentForm(true)}>
+                  Enroll Now
+                </button>
+                <button type="button" className="course-detail-panel__dismiss" onClick={closeDetails}>
+                  Browse other courses
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="course-detail-panel__enroll">
+              <div className="course-detail-panel__enroll-header">
+                <h3>Enroll in {selectedCourse.name}</h3>
+                <button
+                  type="button"
+                  className="course-detail-panel__back"
+                  onClick={() => setShowEnrollmentForm(false)}
+                >
+                  ← Back to course details
+                </button>
+              </div>
+              <EnrollmentForm
+                course={selectedCourse}
+                onClose={closeDetails}
+              />
+            </div>
+          )}
+        </section>
+      )}
 
       <div className="courses-grid">
         {courseData.map((course) => (
-          <div key={course.id} className="course-card" onClick={() => openDetails(course)}>
+          <article
+            key={course.id}
+            className={`course-card${selectedCourse?.id === course.id ? " course-card--active" : ""}`}
+          >
             <div className="course-image-container">
               <img src={course.image} alt={course.name} className="course-image" />
               <div className="course-level">{course.level}</div>
             </div>
-            <div className="course-content">
-              <h3 className="course-name">{course.name}</h3>
-              <p className="course-description">{course.description}</p>
-              <div className="course-meta">
-                <span className="course-duration">
-                  <i className="course-icon">⏱️</i> {course.duration}
-                </span>
-                <span className="course-schedule">
-                  <i className="course-icon">📅</i> {course.schedule}
-                </span>
-              </div>
-              <button className="course-button">Learn More</button>
+            <h3 className="course-name">{course.name}</h3>
+            <p className="course-description">{course.description}</p>
+            <div className="course-meta">
+              <span className="course-duration">
+                <i className="course-icon">⏱️</i> {course.duration}
+              </span>
+              <span className="course-schedule">
+                <i className="course-icon">📅</i> {course.schedule}
+              </span>
             </div>
-          </div>
+            <button
+              className="course-button"
+              type="button"
+              onClick={() => openDetails(course)}
+              aria-expanded={selectedCourse?.id === course.id}
+            >
+              {selectedCourse?.id === course.id ? "Viewing Details" : "Learn More"}
+            </button>
+          </article>
         ))}
       </div>
-
-      {selectedCourse && !showEnrollmentForm && (
-        <div className="course-modal-overlay" onClick={closeDetails}>
-          <div className="course-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={closeDetails}>×</button>
-            <div className="modal-content">
-              <img src={selectedCourse.image} alt={selectedCourse.name} className="modal-image" />
-              <h2 className="modal-title">{selectedCourse.name}</h2>
-              <p className="modal-description">{selectedCourse.description}</p>
-              <div className="modal-details">
-                <div className="detail-item">
-                  <h4>Duration</h4>
-                  <p>{selectedCourse.duration}</p>
-                </div>
-                <div className="detail-item">
-                  <h4>Level</h4>
-                  <p>{selectedCourse.level}</p>
-                </div>
-                <div className="detail-item">
-                  <h4>Schedule</h4>
-                  <p>{selectedCourse.schedule}</p>
-                </div>
-                <div className="detail-item">
-                  <h4>Instructor</h4>
-                  <p>{selectedCourse.instructor}</p>
-                </div>
-              </div>
-              <div className="modal-full-details">
-                <div 
-                  dangerouslySetInnerHTML={{
-                    __html: formatCourseDetails(selectedCourse.details)
-                  }} 
-                />
-              </div>
-              <button className="enroll-button" onClick={handleEnroll}>Enroll Now</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {selectedCourse && showEnrollmentForm && (
-        <div className="course-modal-overlay">
-          <div className="course-modal enrollment-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={closeEnrollmentForm}>×</button>
-            <EnrollmentForm 
-              course={selectedCourse} 
-              onClose={() => {
-                setShowEnrollmentForm(false);
-                closeDetails();
-              }}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

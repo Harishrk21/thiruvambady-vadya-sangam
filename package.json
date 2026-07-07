@@ -19,8 +19,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "react-scripts build",
+    "build:netlify": "PRERENDER=0 npm run build",
+    "postbuild": "node scripts/prerender.mjs",
+    "generate-sitemap": "node scripts/generate-sitemap.mjs",
+    "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -41,5 +45,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "puppeteer": "^24.43.1",
+    "serve-handler": "^6.1.7"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

@@ -63,7 +63,7 @@
   /* Grid layout for the instrument cards */
   .instruments-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
     gap: 30px;
     max-width: 1400px;
     margin: 0 auto;
@@ -139,11 +139,31 @@
   }
   
   .instrument-brief {
-    padding: 16px;
+    padding: 0 16px 16px;
     color: #e2e8f0;
     line-height: 1.5;
     font-size: 0.95rem;
     margin: 0;
+  }
+
+  .instrument-category-tag {
+    padding: 0 16px 8px;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .instrument-category {
+    display: inline-block;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
   }
   
   /* Detailed view styling */
@@ -256,6 +276,43 @@
   }
   
   /* Responsive styles */
+  @media (max-width: 767px) {
+    .instruments-container {
+      padding: 32px 16px 48px;
+      overflow-x: clip;
+    }
+
+    .instruments-header {
+      margin-bottom: 40px;
+    }
+
+    .instruments-header h1 {
+      font-size: clamp(1.65rem, 6vw, 2.25rem);
+      padding-bottom: 16px;
+    }
+
+    .instruments-header p {
+      font-size: 1rem;
+    }
+
+    .instruments-grid {
+      gap: 20px;
+    }
+
+    .detailed-content {
+      flex-direction: column;
+    }
+
+    .detailed-image-container {
+      width: 100%;
+      min-height: 240px;
+    }
+
+    .detailed-info {
+      width: 100%;
+    }
+  }
+
   @media (min-width: 768px) {
     .instruments-container {
       padding: 60px 40px;

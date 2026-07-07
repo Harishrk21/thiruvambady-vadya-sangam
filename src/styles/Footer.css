@@ -55,6 +55,9 @@
   text-decoration: none;
   transition: color 0.3s ease;
   display: inline-block;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
 }
 
 .footer-list-link:hover {
@@ -75,6 +78,16 @@
   margin-right: 10px;
   color: #facc15;
   flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.footer-contact-link {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-contact-link:hover {
+  color: #facc15;
 }
 
 /* Footer Bottom */
@@ -104,8 +117,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px; /* Slightly smaller on mobile */
-  height: 36px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   background-color: rgba(209, 213, 219, 0.1);
   color: #d1d5db;
@@ -138,12 +153,12 @@
 /* Responsive styles for desktop */
 @media (min-width: 768px) {
   .footer {
-    padding: 48px 24px 24px; /* Restore original padding */
+    padding: 48px 24px 24px;
   }
-  
+
   .footer-container {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
-    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
   }
   
   .footer-bottom {
@@ -167,8 +182,10 @@
   }
   
   .footer-social-link {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
   
   .footer-contact-item span {

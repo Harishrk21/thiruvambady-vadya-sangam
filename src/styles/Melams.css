@@ -1,0 +1,291 @@
+.melams-page {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.melams-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.melams-eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ca8a04;
+  margin-bottom: 8px;
+}
+
+.melams-title {
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  color: #facc15;
+  margin: 0 0 16px;
+  font-weight: 700;
+}
+
+.melams-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  line-height: 1.7;
+  color: #94a3b8;
+  margin: 0 0 24px;
+}
+
+.melams-back-btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 2px solid #facc15;
+  color: #facc15;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.melams-back-btn:hover {
+  background: #facc15;
+  color: #0f172a;
+}
+
+.melams-intro-note {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding: 20px 24px;
+  background: rgba(250, 204, 21, 0.06);
+  border-left: 4px solid #facc15;
+  border-radius: 0 8px 8px 0;
+}
+
+.melams-intro-note p {
+  margin: 0;
+  line-height: 1.7;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.melams-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.melam-card {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  border: 1px solid rgba(250, 204, 21, 0.15);
+  border-radius: 12px;
+  padding: 28px 24px;
+  scroll-margin-top: 100px;
+}
+
+.melam-card-header {
+  margin-bottom: 20px;
+}
+
+.melam-category {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ca8a04;
+  margin-bottom: 6px;
+}
+
+.melam-name {
+  color: #facc15;
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  margin: 0 0 4px;
+}
+
+.melam-malayalam {
+  font-size: 1rem;
+  color: #64748b;
+}
+
+.melam-meta-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.melam-meta-item {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(250, 204, 21, 0.1);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.melam-meta-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #facc15;
+  margin-bottom: 4px;
+}
+
+.melam-meta-value {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+.melam-description {
+  line-height: 1.7;
+  color: #e2e8f0;
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+}
+
+.melam-features h3 {
+  color: #facc15;
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+
+.melam-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.melam-features li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.melam-features li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #facc15;
+}
+
+.melam-instruments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.melam-instruments-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-right: 4px;
+}
+
+.melam-instrument-tag {
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  color: #facc15;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.melams-training {
+  max-width: 900px;
+  margin: 56px auto 0;
+  text-align: center;
+}
+
+.melams-training h2 {
+  color: #facc15;
+  margin: 0 0 32px;
+  font-size: clamp(1.3rem, 3vw, 1.75rem);
+}
+
+.melams-path {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.melams-path-step {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  border: 1px solid rgba(250, 204, 21, 0.12);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+}
+
+.melams-path-num {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  background: #facc15;
+  color: #0f172a;
+  font-weight: 700;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.melams-path-step h4 {
+  color: #facc15;
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.melams-path-step p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.melams-subtitle a {
+  color: #facc15;
+  text-decoration: underline;
+}
+
+.melams-enroll-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: #facc15;
+  color: #0f172a;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.melams-enroll-btn:hover {
+  background: #eab308;
+}
+
+@media (min-width: 768px) {
+  .melam-meta-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .melams-page {
+    padding: 60px 40px 80px;
+  }
+
+  .melams-path {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .melams-path {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
