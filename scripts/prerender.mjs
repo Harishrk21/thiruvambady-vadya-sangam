@@ -10,14 +10,20 @@ import { createServer } from "http";
 import handler from "serve-handler";
 import puppeteer from "puppeteer";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = join(__dirname, "..");
+const buildDir = join(root, "build");
+
 if (process.env.PRERENDER === "0" || process.env.NETLIFY === "true") {
+  const indexPath = join(buildDir, "index.html");
+  if (existsSync(indexPath)) {
+    writeFileSync(join(buildDir, "404.html"), readFileSync(indexPath));
+    console.log("Copied index.html → 404.html (Netlify SPA fallback)");
+  }
   console.log("Prerender skipped (PRERENDER=0 or NETLIFY build)");
   process.exit(0);
 }
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = join(__dirname, "..");
-const buildDir = join(root, "build");
 const sitemapPath = join(buildDir, "sitemap.xml");
 const PORT = 45678;
 
